@@ -27,6 +27,7 @@ WORKDIR /root/rpmbuild/RPMS
 RUN pwd
 RUN wget ftp://ftp.pbone.net/mirror/ftp.pramberger.at/systems/linux/contrib/rhel6/x86_64/distcache-lib-1.5.2-0.1.dev.el6.pp.x86_64.rpm
 
+
 RUN rpm -ivh distcache-lib-1.5.2-0.1.dev.el6.pp.x86_64.rpm
 RUN wget ftp://ftp.pbone.net/mirror/ftp.pramberger.at/systems/linux/contrib/rhel6/x86_64/distcache-devel-1.5.2-0.1.dev.el6.pp.x86_64.rpm
 RUN rpm -ivh distcache-devel-1.5.2-0.1.dev.el6.pp.x86_64.rpm
@@ -34,7 +35,9 @@ WORKDIR /root/rpmbuild/SOURCES
 RUN wget http://www.gtlib.gatech.edu/pub/apache/httpd/httpd-2.4.20.tar.bz2
 RUN rpmbuild -tb httpd-2.4.20.tar.bz2
 WORKDIR /root/rpmbuild/RPMS/x86_64/
+
 RUN rpm -ivh httpd-2.4.20-1.x86_64.rpm
+RUN rpm -ivh mod_proxy_html-2.4.20-1.x86_64.rpm
 
 
 
