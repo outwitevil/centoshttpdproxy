@@ -14,7 +14,7 @@ WORKDIR /root/rpmbuild/SOURCES
 RUN wget http://www.webhostingreviewjam.com/mirror/apache/apr/apr-1.5.2.tar.bz2
 RUN wget http://www.webhostingreviewjam.com/mirror/apache/apr/apr-util-1.5.4.tar.bz2
 
-RUN yum -y install autoconf libtool doxygen
+RUN yum -y install autoconf libtool doxygen ca-certificates
 RUN rpmbuild -tb apr-1.5.2.tar.bz2
 RUN rpm -ivh ~/rpmbuild/RPMS/x86_64/apr-1.5.2-1.x86_64.rpm ~/rpmbuild/RPMS/x86_64/apr-devel-1.5.2-1.x86_64.rpm
 
@@ -46,12 +46,15 @@ RUN yum clean all
 
 RUN echo "Apache HTTPD"
 WORKDIR /
-EXPOSE 80
+EXPOSE 80 443
 
-ADD etc/httpd/conf/httpd.conf /etc/httpd/conf/httpd.conf
+ADD etc/httpd/ /etc/httpd/
 
 ADD run-httpd.sh /run-httpd.sh
 RUN dos2unix /run-httpd.sh
 RUN chmod -v +x /run-httpd.sh
+
+RUN ln -sf /dev/stdout /var/log/httpd/access.log \
+	&& ln -sf /dev/stderr /var/log/httpd/error.log
 
 CMD ["./run-httpd.sh"]
